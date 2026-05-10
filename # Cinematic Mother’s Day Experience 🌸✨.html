@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Mom ❤️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Dancing+Script:wght@400;700&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--bg:#040712;
+--pink:#ff4da6;
+--purple:#a855f7;
+--cyan:#4df6ff;
+--gold:#ffe6b0;
+--cream:#fff6ea;
+}
+
+body{
+background:radial-gradient(circle at top,#0d1025,#040712 60%);
+overflow-x:hidden;
+font-family:'Cormorant Garamond',serif;
+color:white;
+height:100vh;
+cursor:none;
+}
+
+canvas{
+position:fixed;
+inset:0;
+z-index:0;
+}
+
+#cursor{
+position:fixed;
+width:15px;
+height:15px;
+border-radius:50%;
+pointer-events:none;
+background:radial-gradient(circle,var(--pink),transparent);
+box-shadow:0 0 20px var(--pink);
+transform:translate(-50%,-50%);
+z-index:9999;
+}
+
+.hero{
+position:relative;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:50px;
+z-index:5;
+padding:40px;
+}
+
+.title{
+font-size:clamp(2rem,6vw,5rem);
+font-weight:300;
+text-align:center;
+line-height:1.2;
+opacity:0;
+background:linear-gradient(90deg,#fff,#ff9bd1,#b388ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+filter:drop-shadow(0 0 20px rgba(255,77,166,.4));
+}
+
+.subtitle{
+font-family:'Raleway',sans-serif;
+letter-spacing:.4em;
+font-size:.8rem;
+opacity:.4;
+text-transform:uppercase;
+}
+
+.flower-container{
+position:relative;
+width:340px;
+height:340px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.glow-ring{
+position:absolute;
+width:320px;
+height:320px;
+border-radius:50%;
+background:radial-gradient(circle,rgba(255,77,166,.15),transparent 70%);
+filter:blur(30px);
+animation:pulse 5s infinite ease-in-out;
+}
+
+.flower{
+position:relative;
+width:220px;
+height:220px;
+}
+
+.petal{
+position:absolute;
+left:50%;
+top:50%;
+width:70px;
+height:120px;
+background:linear-gradient(180deg,#ff9bd1,#ff4da6,#a855f7);
+border-radius:50% 50% 50% 0;
+transform-origin:bottom center;
+filter:drop-shadow(0 0 15px rgba(255,77,166,.6));
+opacity:.95;
+}
+
+.center-core{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:70px;
+height:70px;
+border-radius:50%;
+background:radial-gradient(circle,var(--cyan),#00bcd4,var(--pink));
+box-shadow:
+0 0 30px var(--cyan),
+0 0 60px rgba(255,77,166,.6);
+animation:heartbeat 3s infinite;
+}
+
+.letter-wrapper{
+position:relative;
+width:min(700px,90vw);
+perspective:1400px;
+margin-top:40px;
+}
+
+.letter{
+background:linear-gradient(180deg,#fffdf7,#fff3de);
+color:#432;
+padding:50px;
+border-radius:8px;
+min-height:350px;
+box-shadow:
+0 30px 80px rgba(0,0,0,.5),
+0 0 40px rgba(255,77,166,.12);
+position:relative;
+overflow:hidden;
+transform-style:preserve-3d;
+}
+
+.letter::before{
+content:'';
+position:absolute;
+inset:0;
+background:repeating-linear-gradient(
+transparent,
+transparent 31px,
+rgba(0,0,0,.04) 32px
+);
+pointer-events:none;
+}
+
+.handwriting{
+position:relative;
+font-family:'Dancing Script',cursive;
+font-size:clamp(1.3rem,2vw,2rem);
+line-height:2;
+z-index:2;
+}
+
+.final-message{
+margin-top:100px;
+text-align:center;
+font-size:clamp(2rem,5vw,4rem);
+font-style:italic;
+font-weight:300;
+opacity:0;
+background:linear-gradient(90deg,#fff,#ff9bd1,#b388ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.floating-petal{
+position:fixed;
+width:18px;
+height:26px;
+background:linear-gradient(180deg,#ff9bd1,#ff4da6);
+border-radius:50% 50% 50% 0;
+pointer-events:none;
+opacity:.7;
+filter:blur(.3px);
+}
+
+@keyframes pulse{
+0%,100%{transform:scale(1);opacity:.7;}
+50%{transform:scale(1.15);opacity:1;}
+}
+
+@keyframes heartbeat{
+0%,100%{transform:translate(-50%,-50%) scale(1);}
+50%{transform:translate(-50%,-50%) scale(1.12);}
+}
+
+@media(max-width:700px){
+.letter{
+padding:30px;
+}
+.flower-container{
+transform:scale(.8);
+}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div id="cursor"></div>
+
+<section class="hero">
+
+<div class="subtitle">With Love · Always · Forever</div>
+
+<h1 class="title">
+For the woman who gave me everything.
+</h1>
+
+<div class="flower-container">
+<div class="glow-ring"></div>
+
+<div class="flower" id="flower">
+<div class="petal" style="transform:translate(-50%,-100%) rotate(0deg)"></div>
+<div class="petal" style="transform:translate(-50%,-100%) rotate(45deg)"></div>
+<div class="petal" style="transform:translate(-50%,-100%) rotate(90deg)"></div>
+<div class="petal" style="transform:translate(-50%,-100%) rotate(135deg)"></div>
+<div class="petal" style="transform:translate(-50%,-100%) rotate(180deg)"></div>
+<div class="petal" style="transform:translate(-50%,-100%) rotate(225deg)"></div>
+<div class="petal" style="transform:translate(-50%,-100%) rotate(270deg)"></div>
+<div class="petal" style="transform:translate(-50%,-100%) rotate(315deg)"></div>
+<div class="center-core"></div>
+</div>
+</div>
+
+<div class="letter-wrapper">
+<div class="letter" id="letter">
+<div class="handwriting" id="typing"></div>
+</div>
+</div>
+
+<div class="final-message" id="finalText">
+Happy Mother’s Day ❤️
+</div>
+
+</section>
+
+<script>
+const cursor=document.getElementById('cursor');
+
+window.addEventListener('mousemove',(e)=>{
+cursor.style.left=e.clientX+'px';
+cursor.style.top=e.clientY+'px';
+});
+
+// STARFIELD
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let stars=[];
+
+for(let i=0;i<250;i++){
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*1.8,
+a:Math.random(),
+s:Math.random()*0.3
+});
+}
+
+function animateStars(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+stars.forEach(star=>{
+star.y+=star.s;
+if(star.y>canvas.height) star.y=0;
+
+ctx.beginPath();
+ctx.arc(star.x,star.y,star.r,0,Math.PI*2);
+ctx.fillStyle=`rgba(255,255,255,${star.a})`;
+ctx.fill();
+});
+
+requestAnimationFrame(animateStars);
+}
+
+animateStars();
+
+// FLOATING PETALS
+function createPetal(){
+const petal=document.createElement('div');
+petal.classList.add('floating-petal');
+
+document.body.appendChild(petal);
+
+petal.style.left=Math.random()*window.innerWidth+'px';
+petal.style.top='-40px';
+
+const duration=Math.random()*10+8;
+
+gsap.to(petal,{
+y:window.innerHeight+200,
+x:`+=${Math.random()*200-100}`,
+rotation:Math.random()*360,
+duration:duration,
+ease:'none',
+onComplete:()=>petal.remove()
+});
+}
+
+setInterval(createPetal,500);
+
+// FLOWER MOTION
+const petals=document.querySelectorAll('.petal');
+
+petals.forEach((petal,index)=>{
+gsap.to(petal,{
+scale:1.08,
+duration:2+index*.2,
+repeat:-1,
+yoyo:true,
+ease:'sine.inOut'
+});
+});
+
+gsap.to('#flower',{
+y:-15,
+duration:4,
+repeat:-1,
+yoyo:true,
+ease:'sine.inOut'
+});
+
+// TYPEWRITER
+const message=`
+Dear Mom,
+
+Thank you for every sacrifice,
+every sleepless night,
+and every moment of love.
+
+You became the light
+that helped me grow.
+
+No matter where life takes me,
+part of my heart will always remain with you.
+
+Happy Mother's Day ❤️
+`;
+
+const typing=document.getElementById('typing');
+let i=0;
+
+function typeWriter(){
+if(i<message.length){
+typing.innerHTML+=message.charAt(i)==='\n'?'<br>':message.charAt(i);
+i++;
+setTimeout(typeWriter,40);
+}
+}
+
+// INTRO TIMELINE
+const tl=gsap.timeline();
+
+tl.from('.flower-container',{
+scale:0,
+opacity:0,
+duration:2,
+ease:'elastic.out(1,.5)'
+})
+.from('.title',{
+y:100,
+opacity:0,
+duration:2
+},'-=1.2')
+.from('.letter-wrapper',{
+y:150,
+opacity:0,
+duration:2
+},'-=1')
+.call(typeWriter)
+.to('#finalText',{
+opacity:1,
+y:-20,
+duration:3
+},'+=6');
+
+// PARALLAX
+window.addEventListener('mousemove',(e)=>{
+const x=(e.clientX/window.innerWidth-.5)*30;
+const y=(e.clientY/window.innerHeight-.5)*20;
+
+gsap.to('.flower-container',{
+x:x,
+y:y,
+duration:2
+});
+
+gsap.to('.letter-wrapper',{
+x:-x*.4,
+y:-y*.4,
+duration:2
+});
+});
+
+// FLOWER BURST
+const flower=document.getElementById('flower');
+
+flower.addEventListener('click',()=>{
+for(let i=0;i<40;i++){
+createPetal();
+}
+
+gsap.fromTo(flower,
+{scale:1},
+{
+scale:1.15,
+duration:.4,
+yoyo:true,
+repeat:1,
+ease:'power2.out'
+});
+});
+</script>
+
+</body>
+</html>
+```
+
+## 🌸 Extra Ideas You Can Add Later
+
+* Piano background music 🎹
+* Real family photos fading in
+* Voice message from you
+* 3D flower using Three.js
+* Aurora sky effects
+* Memory timeline section
+* Falling stars reacting to cursor
+* AI-generated watercolor textures
+* Morphing flower petals
+* Realistic paper physics
